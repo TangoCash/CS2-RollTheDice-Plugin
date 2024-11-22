@@ -59,8 +59,4 @@ public class EffectMirrorDamage : EffectBaseEvent<EventPlayerHurt>, IEffectParam
     public override void OnRemove(CCSPlayerController? playerController)
     {
     }
-
-    public override void OnRoundFreezeEnd(CCSPlayerController? playerController)
-    {
-    }
 }

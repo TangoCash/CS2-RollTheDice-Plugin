@@ -38,8 +38,4 @@ public class EffectLessSpeed : EffectBaseRegular, IEffectParameter
     public override void OnRemove(CCSPlayerController? playerController)
     {
     }
-
-    public override void OnRoundFreezeEnd(CCSPlayerController? playerController)
-    {
-    }
 }

@@ -43,8 +43,4 @@ public class EffectBigger : EffectBaseRegular, IEffectParameter
 
         playerController.PlayerPawn.Value.Entity.EntityInstance.AddEntityIOEvent("SetScale", null, null, "1");
     }
-
-    public override void OnRoundFreezeEnd(CCSPlayerController? playerController)
-    {
-    }
 }

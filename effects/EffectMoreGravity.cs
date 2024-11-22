@@ -38,8 +38,4 @@ public class EffectMoreGravity : EffectBaseRegular, IEffectParameter
 
         playerController!.PlayerPawn.Value.GravityScale = 1;
     }
-
-    public override void OnRoundFreezeEnd(CCSPlayerController? playerController)
-    {
-    }
 }

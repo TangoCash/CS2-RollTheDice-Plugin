@@ -6,7 +6,7 @@ namespace Preach.CS2.Plugins.RollTheDiceV2.Effects;
 
 public class EffectLessFOV : EffectBaseRegular, IEffectParameter
 {
-    public override bool Enabled { get; set; } = true;
+    public override bool Enabled { get; set; } = false;
     public override string PrettyName { get; set; } = "Less FOV";
     public override string TranslationName { get; set; } = "less_fov";
     public override double Probability { get; set; } = 2;
@@ -40,9 +40,5 @@ public class EffectLessFOV : EffectBaseRegular, IEffectParameter
 
         playerController.DesiredFOV = 90;
         playerController.RefreshUI();
-    }
-
-    public override void OnRoundFreezeEnd(CCSPlayerController? playerController)
-    {
     }
 }

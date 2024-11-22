@@ -39,8 +39,4 @@ public class EffectLessHealth : EffectBaseRegular, IEffectParameter
     public override void OnRemove(CCSPlayerController? playerController)
     {
     }
-
-    public override void OnRoundFreezeEnd(CCSPlayerController? playerController)
-    {
-    }
 }

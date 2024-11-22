@@ -61,4 +61,20 @@ internal static class Helpers
 
         return (float)Math.Sqrt(dx * dx + dy * dy + dz * dz);
     }
+
+    public static void DropWeapons(CCSPlayerController? player)
+    {
+        if (player == null || !player.IsValid || player.IsBot || player.PlayerPawn.Value?.WeaponServices is null)
+        {
+            return;
+        }
+
+        var act_weapon = player.PlayerPawn.Value?.WeaponServices!.ActiveWeapon;
+
+        while (!(act_weapon.Value.DesignerName.Contains("bayonet") || act_weapon.Value.DesignerName.Contains("knife") || act_weapon.Value.DesignerName.Contains("weapon_c4")))
+        {
+            player.DropActiveWeapon();
+            act_weapon = player.PlayerPawn.Value?.WeaponServices!.ActiveWeapon;
+        }
+    }
 }

@@ -102,12 +102,15 @@ public class DiceSystem
         return true;
     }
 
-    public void CheckPlayerStatus(CCSPlayerController plyController)
+    public void CheckPlayerStatus(CCSPlayerController plyController, bool chicken = false)
     {
-        if(!plyController.IsValidPly() || !CheckTeamAndLifeState(plyController) || !CanRoll(plyController) || !HasEnoughMoney(plyController))
+        if (!plyController.IsValidPly() || !CheckTeamAndLifeState(plyController))
             return;
 
-        RollAndApplyEffect(plyController);
+        if (chicken)
+            ApplyChicken(plyController);
+        else if (CanRoll(plyController) && HasEnoughMoney(plyController))
+            RollAndApplyEffect(plyController);
     }
 
     private bool HasEnoughMoney (CCSPlayerController plyController)
@@ -135,6 +138,21 @@ public class DiceSystem
                 .Where(e => e.Enabled)
                 .OrderBy(e => e.CumulativeProbability)
                 .FirstOrDefault(e => roll <= e.CumulativeProbability);
+    }
+
+    private EffectBase? GetChickenEffect()
+    {
+        var effectsList = EffectBase.Effects;
+
+        if (effectsList == null)
+        {
+            Log.PrintServerConsole("No effects found", LogType.ERROR);
+            return null;
+        }
+
+        return effectsList
+                .Where(e => e.TranslationName.Equals("chicken"))
+                .First();
     }
 
     private void BroadOrUnicastRollMessages(CCSPlayerController target, EffectBase effect)
@@ -204,6 +222,44 @@ public class DiceSystem
             regularEffect.OnApply(plyController);
 
         if(effect.ShowDescriptionOnRoll)
+            plyController.LogChat(effect.GetEffectPrefix() + Log.GetLocalizedText(Log.GetEffectLocale(effect.TranslationName, "description")), LogType.DEFAULT);
+    }
+
+    public void ApplyChicken(CCSPlayerController plyController)
+    {
+        if (!plyController.IsValidPly())
+            return;
+
+        EffectBase? effect = GetChickenEffect()!;
+
+        if (effect == null)
+            return;
+
+        var plyID = plyController.SteamID;
+
+        if (plyController.InGameMoneyServices is null) return;
+
+        //plyController.InGameMoneyServices.Account -= _plugin.Config!.MoneyToRoll;
+        //plyController.RefreshUI();
+
+        var plyActiveEffect = RollTheDice.Instance!.EffectManager!.PlyActiveEffect;
+        if (plyActiveEffect!.ContainsKey(plyID))
+        {
+            if (_plugin.Config.RemoveLastEffect)
+                plyActiveEffect[plyID]!.OnRemove(plyController);
+
+            plyActiveEffect[plyID] = effect;
+        }
+        else
+        {
+            plyActiveEffect.Add(plyID, effect);
+        }
+        BroadOrUnicastRollMessages(plyController, effect);
+
+        if (effect is EffectBaseRegular regularEffect)
+            regularEffect.OnApply(plyController);
+
+        if (effect.ShowDescriptionOnRoll)
             plyController.LogChat(effect.GetEffectPrefix() + Log.GetLocalizedText(Log.GetEffectLocale(effect.TranslationName, "description")), LogType.DEFAULT);
     }
 

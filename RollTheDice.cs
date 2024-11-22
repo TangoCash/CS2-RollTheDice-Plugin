@@ -38,6 +38,13 @@ public class RollTheDice : BasePlugin, IPluginConfig<GeneralConfig>
         RegisterEffects();
 
         EffectConfig.GetOrGenerateEffectsConfig();
+
+        // Precache resources
+        RegisterListener<Listeners.OnServerPrecacheResources>((manifest) =>
+        {
+            manifest.AddResource("models/chicken/chicken.vmdl");
+            manifest.AddResource("models/props/de_dust/hr_dust/dust_soccerball/dust_soccer_ball001.vmdl");
+        });
     }
 
     public override void Unload(bool hotReload)

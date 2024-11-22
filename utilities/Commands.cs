@@ -58,6 +58,11 @@ public class Commands
                 _plugin.DiceSystem!.CheckPlayerStatus(ply!);
             });
 
+        _plugin.AddCommand("chicken", Log.GetLocalizedText("cmd_description_chicken"),
+            [CommandHelper(0, "Buk! Buk! Buk!", CommandUsage.CLIENT_ONLY)] (ply, info) => {
+                _plugin.DiceSystem!.CheckPlayerStatus(ply!,true);
+            });
+
         _plugin.AddCommand("rtd_config_reload", Log.GetLocalizedText("cmd_description_reload_config"), 
             [RequiresPermissions("@css/root")] (ply, info) => {
                 ConfigCallback(ply, "all", 1, info);

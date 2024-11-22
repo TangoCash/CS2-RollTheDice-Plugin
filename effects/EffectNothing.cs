@@ -23,8 +23,4 @@ public class EffectNothing : EffectBaseRegular
     public override void OnRemove(CCSPlayerController? playerController)
     {
     }
-
-    public override void OnRoundFreezeEnd(CCSPlayerController? playerController)
-    {
-    }
 }

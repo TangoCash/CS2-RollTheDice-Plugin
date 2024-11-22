@@ -47,7 +47,11 @@ public abstract class EffectBase : IEffect
     public abstract void Initialize();
 
     // OnRoundFreezeEnd is used to apply event on round freeze end
-    public abstract void OnRoundFreezeEnd(CCSPlayerController? playerController);
+    public virtual void OnRoundFreezeEnd(CCSPlayerController? playerController) { }
+    // OnBuytimeEnd is used to apply event on buytime end
+    public virtual void OnBuytimeEnd(CCSPlayerController? playerController) { }
+    public virtual void OnItemPickup(CCSPlayerController? playerController, EventItemPickup @event) { }
+    public virtual void OnWeaponFire(CCSPlayerController? playerController, EventWeaponFire @event) { }
 
     public EffectBase()
     {

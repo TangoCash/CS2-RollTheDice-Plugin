@@ -30,8 +30,4 @@ public class EffectNoMoney : EffectBaseRegular
     public override void OnRemove(CCSPlayerController? playerController)
     {
     }
-
-    public override void OnRoundFreezeEnd(CCSPlayerController? playerController)
-    {
-    }
 }
